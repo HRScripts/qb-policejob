@@ -132,114 +132,114 @@ function TakeOutImpound(vehicle)
     end
 end
 
-function TakeOutVehicle(vehicleInfo)
-    local coords = Config.Locations['vehicle'][currentGarage]
-    if coords then
-        QBCore.Functions.TriggerCallback('QBCore:Server:SpawnVehicle', function(netId)
-            local veh = NetToVeh(netId)
-            SetCarItemsInfo()
-            SetVehicleNumberPlateText(veh, Lang:t('info.police_plate') .. tostring(math.random(1000, 9999)))
-            SetEntityHeading(veh, coords.w)
-            exports[Config.FuelResource]:SetFuel(veh, 100.0)
-            closeMenuFull()
-            if Config.VehicleSettings[vehicleInfo] ~= nil then
-                if Config.VehicleSettings[vehicleInfo].extras ~= nil then
-                    QBCore.Shared.SetDefaultVehicleExtras(veh, Config.VehicleSettings[vehicleInfo].extras)
-                end
-                if Config.VehicleSettings[vehicleInfo].livery ~= nil then
-                    SetVehicleLivery(veh, Config.VehicleSettings[vehicleInfo].livery)
-                end
-            end
-            TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
-            TriggerEvent('vehiclekeys:client:SetOwner', QBCore.Functions.GetPlate(veh))
-            SetVehicleEngineOn(veh, true, true)
-        end, vehicleInfo, coords, true)
-    end
-end
+-- function TakeOutVehicle(vehicleInfo)
+--     local coords = Config.Locations['vehicle'][currentGarage]
+--     if coords then
+--         QBCore.Functions.TriggerCallback('QBCore:Server:SpawnVehicle', function(netId)
+--             local veh = NetToVeh(netId)
+--             SetCarItemsInfo()
+--             SetVehicleNumberPlateText(veh, Lang:t('info.police_plate') .. tostring(math.random(1000, 9999)))
+--             SetEntityHeading(veh, coords.w)
+--             exports[Config.FuelResource]:SetFuel(veh, 100.0)
+--             closeMenuFull()
+--             if Config.VehicleSettings[vehicleInfo] ~= nil then
+--                 if Config.VehicleSettings[vehicleInfo].extras ~= nil then
+--                     QBCore.Shared.SetDefaultVehicleExtras(veh, Config.VehicleSettings[vehicleInfo].extras)
+--                 end
+--                 if Config.VehicleSettings[vehicleInfo].livery ~= nil then
+--                     SetVehicleLivery(veh, Config.VehicleSettings[vehicleInfo].livery)
+--                 end
+--             end
+--             TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
+--             TriggerEvent('vehiclekeys:client:SetOwner', QBCore.Functions.GetPlate(veh))
+--             SetVehicleEngineOn(veh, true, true)
+--         end, vehicleInfo, coords, true)
+--     end
+-- end
 
-function MenuGarage(currentSelection)
-    local vehicleMenu = {
-        {
-            header = Lang:t('menu.garage_title'),
-            isMenuHeader = true
-        }
-    }
+-- function MenuGarage(currentSelection)
+--     local vehicleMenu = {
+--         {
+--             header = Lang:t('menu.garage_title'),
+--             isMenuHeader = true
+--         }
+--     }
 
-    local playerGrade = QBCore.Functions.GetPlayerData().job.grade.level
-    for grade = 0, playerGrade do
-        local authorizedVehicles = Config.AuthorizedVehicles[grade]
-        if authorizedVehicles then
-            for veh, label in pairs(authorizedVehicles) do
-                vehicleMenu[#vehicleMenu + 1] = {
-                    header = label,
-                    txt = '',
-                    params = {
-                        event = 'police:client:TakeOutVehicle',
-                        args = {
-                            vehicle = veh,
-                            currentSelection = currentSelection
-                        }
-                    }
-                }
-            end
-        end
-    end
+--     local playerGrade = QBCore.Functions.GetPlayerData().job.grade.level
+--     for grade = 0, playerGrade do
+--         local authorizedVehicles = Config.AuthorizedVehicles[grade]
+--         if authorizedVehicles then
+--             for veh, label in pairs(authorizedVehicles) do
+--                 vehicleMenu[#vehicleMenu + 1] = {
+--                     header = label,
+--                     txt = '',
+--                     params = {
+--                         event = 'police:client:TakeOutVehicle',
+--                         args = {
+--                             vehicle = veh,
+--                             currentSelection = currentSelection
+--                         }
+--                     }
+--                 }
+--             end
+--         end
+--     end
 
-    vehicleMenu[#vehicleMenu + 1] = {
-        header = Lang:t('menu.close'),
-        txt = '',
-        params = {
-            event = 'qb-menu:client:closeMenu'
-        }
+--     vehicleMenu[#vehicleMenu + 1] = {
+--         header = Lang:t('menu.close'),
+--         txt = '',
+--         params = {
+--             event = 'qb-menu:client:closeMenu'
+--         }
 
-    }
-    exports['qb-menu']:openMenu(vehicleMenu)
-end
+--     }
+--     exports['qb-menu']:openMenu(vehicleMenu)
+-- end
 
-function MenuImpound(currentSelection)
-    local impoundMenu = {
-        {
-            header = Lang:t('menu.impound'),
-            isMenuHeader = true
-        }
-    }
-    QBCore.Functions.TriggerCallback('police:GetImpoundedVehicles', function(result)
-        local shouldContinue = false
-        if result == nil then
-            QBCore.Functions.Notify(Lang:t('error.no_impound'), 'error', 5000)
-        else
-            shouldContinue = true
-            for _, v in pairs(result) do
-                local enginePercent = QBCore.Shared.Round(v.engine / 10, 0)
-                local currentFuel = v.fuel
-                local vname = QBCore.Shared.Vehicles[v.vehicle].name
+-- function MenuImpound(currentSelection)
+--     local impoundMenu = {
+--         {
+--             header = Lang:t('menu.impound'),
+--             isMenuHeader = true
+--         }
+--     }
+--     QBCore.Functions.TriggerCallback('police:GetImpoundedVehicles', function(result)
+--         local shouldContinue = false
+--         if result == nil then
+--             QBCore.Functions.Notify(Lang:t('error.no_impound'), 'error', 5000)
+--         else
+--             shouldContinue = true
+--             for _, v in pairs(result) do
+--                 local enginePercent = QBCore.Shared.Round(v.engine / 10, 0)
+--                 local currentFuel = v.fuel
+--                 local vname = QBCore.Shared.Vehicles[v.vehicle].name
 
-                impoundMenu[#impoundMenu + 1] = {
-                    header = vname .. ' [' .. v.plate .. ']',
-                    txt = Lang:t('info.vehicle_info', { value = enginePercent, value2 = currentFuel }),
-                    params = {
-                        event = 'police:client:TakeOutImpound',
-                        args = {
-                            vehicle = v,
-                            currentSelection = currentSelection
-                        }
-                    }
-                }
-            end
-        end
+--                 impoundMenu[#impoundMenu + 1] = {
+--                     header = vname .. ' [' .. v.plate .. ']',
+--                     txt = Lang:t('info.vehicle_info', { value = enginePercent, value2 = currentFuel }),
+--                     params = {
+--                         event = 'police:client:TakeOutImpound',
+--                         args = {
+--                             vehicle = v,
+--                             currentSelection = currentSelection
+--                         }
+--                     }
+--                 }
+--             end
+--         end
 
-        if shouldContinue then
-            impoundMenu[#impoundMenu + 1] = {
-                header = Lang:t('menu.close'),
-                txt = '',
-                params = {
-                    event = 'qb-menu:client:closeMenu'
-                }
-            }
-            exports['qb-menu']:openMenu(impoundMenu)
-        end
-    end)
-end
+--         if shouldContinue then
+--             impoundMenu[#impoundMenu + 1] = {
+--                 header = Lang:t('menu.close'),
+--                 txt = '',
+--                 params = {
+--                     event = 'qb-menu:client:closeMenu'
+--                 }
+--             }
+--             exports['qb-menu']:openMenu(impoundMenu)
+--         end
+--     end)
+-- end
 
 function closeMenuFull()
     exports['qb-menu']:closeMenu()
@@ -298,6 +298,7 @@ RegisterNetEvent('police:client:CallAnim', function()
     end)
 end)
 
+local getVehicleProperties = exports.HRLib:getLibFunctions().GetVehicleProperties --[[@as fun(vehicle: integer): table]]
 RegisterNetEvent('police:client:ImpoundVehicle', function(fullImpound, price)
     local vehicle = QBCore.Functions.GetClosestVehicle()
     local bodyDamage = math.ceil(GetVehicleBodyHealth(vehicle))
@@ -328,12 +329,12 @@ RegisterNetEvent('police:client:ImpoundVehicle', function(fullImpound, price)
                 coords = { x = 0.11, y = -0.02, z = 0.001 },
                 rotation = { x = -120.0, y = 0.0, z = 0.0 },
             }, function() -- Play When Done
-                local plate = QBCore.Functions.GetPlate(vehicle)
-                TriggerServerEvent('police:server:Impound', plate, fullImpound, price, bodyDamage, engineDamage, totalFuel)
                 while NetworkGetEntityOwner(vehicle) ~= 128 do -- Ensure we have entity ownership to prevent inconsistent vehicle deletion
                     NetworkRequestControlOfEntity(vehicle)
                     Wait(100)
                 end
+
+	            TriggerServerEvent('HRGarages:addImpoundedVehicle', getVehicleProperties(vehicle), true)
                 QBCore.Functions.DeleteVehicle(vehicle)
                 TriggerEvent('QBCore:Notify', Lang:t('success.impounded'), 'success')
                 ClearPedTasks(ped)
@@ -365,10 +366,10 @@ RegisterNetEvent('police:client:CheckStatus', function()
     end)
 end)
 
-RegisterNetEvent('police:client:VehicleMenuHeader', function(data)
-    MenuGarage(data.currentSelection)
-    currentGarage = data.currentSelection
-end)
+-- RegisterNetEvent('police:client:VehicleMenuHeader', function(data)
+--     MenuGarage(data.currentSelection)
+--     currentGarage = data.currentSelection
+-- end)
 
 
 RegisterNetEvent('police:client:ImpoundMenuHeader', function(data)
@@ -383,12 +384,12 @@ RegisterNetEvent('police:client:TakeOutImpound', function(data)
     end
 end)
 
-RegisterNetEvent('police:client:TakeOutVehicle', function(data)
-    if inGarage then
-        local vehicle = data.vehicle
-        TakeOutVehicle(vehicle)
-    end
-end)
+-- RegisterNetEvent('police:client:TakeOutVehicle', function(data)
+--     if inGarage then
+--         local vehicle = data.vehicle
+--         TakeOutVehicle(vehicle)
+--     end
+-- end)
 
 RegisterNetEvent('police:client:EvidenceStashDrawer', function()
     local pos = GetEntityCoords(PlayerPedId())
@@ -947,53 +948,53 @@ CreateThread(function()
         end
     end)
 
-    -- Police Garage
-    local garageZones = {}
-    for i = 1, #Config.Locations['vehicle'] do
-        local v = Config.Locations['vehicle'][i]
-        garageZones[#garageZones + 1] = BoxZone:Create(
-            vector3(v.x, v.y, v.z), 3, 3, {
-                name = 'box_zone',
-                debugPoly = false,
-                minZ = v.z - 1,
-                maxZ = v.z + 1,
-            })
-    end
+    -- -- Police Garage
+    -- local garageZones = {}
+    -- for i = 1, #Config.Locations['vehicle'] do
+    --     local v = Config.Locations['vehicle'][i]
+    --     garageZones[#garageZones + 1] = BoxZone:Create(
+    --         vector3(v.x, v.y, v.z), 3, 3, {
+    --             name = 'box_zone',
+    --             debugPoly = false,
+    --             minZ = v.z - 1,
+    --             maxZ = v.z + 1,
+    --         })
+    -- end
 
-    local garageCombo = ComboZone:Create(garageZones, { name = 'garageCombo', debugPoly = false })
-    garageCombo:onPlayerInOut(function(isPointInside, point)
-        if isPointInside then
-            inGarage = true
-            if PlayerJob.type == 'leo' and PlayerJob.onduty then
-                if IsPedInAnyVehicle(PlayerPedId(), false) then
-                    exports['qb-core']:DrawText(Lang:t('info.store_veh'), 'left')
-                    garage()
-                else
-                    local currentSelection = 0
+    -- local garageCombo = ComboZone:Create(garageZones, { name = 'garageCombo', debugPoly = false })
+    -- garageCombo:onPlayerInOut(function(isPointInside, point)
+    --     if isPointInside then
+    --         inGarage = true
+    --         if PlayerJob.type == 'leo' and PlayerJob.onduty then
+    --             if IsPedInAnyVehicle(PlayerPedId(), false) then
+    --                 exports['qb-core']:DrawText(Lang:t('info.store_veh'), 'left')
+    --                 garage()
+    --             else
+    --                 local currentSelection = 0
 
-                    for i = 1, #Config.Locations['vehicle'] do
-                        local v = Config.Locations['vehicle'][i]
-                        if #(point - vector3(v.x, v.y, v.z)) < 4 then
-                            currentSelection = i
-                        end
-                    end
-                    exports['qb-menu']:showHeader({
-                        {
-                            header = Lang:t('menu.pol_garage'),
-                            params = {
-                                event = 'police:client:VehicleMenuHeader',
-                                args = {
-                                    currentSelection = currentSelection,
-                                }
-                            }
-                        }
-                    })
-                end
-            end
-        else
-            inGarage = false
-            exports['qb-menu']:closeMenu()
-            exports['qb-core']:HideText()
-        end
-    end)
+    --                 for i = 1, #Config.Locations['vehicle'] do
+    --                     local v = Config.Locations['vehicle'][i]
+    --                     if #(point - vector3(v.x, v.y, v.z)) < 4 then
+    --                         currentSelection = i
+    --                     end
+    --                 end
+    --                 exports['qb-menu']:showHeader({
+    --                     {
+    --                         header = Lang:t('menu.pol_garage'),
+    --                         params = {
+    --                             event = 'police:client:VehicleMenuHeader',
+    --                             args = {
+    --                                 currentSelection = currentSelection,
+    --                             }
+    --                         }
+    --                     }
+    --                 })
+    --             end
+    --         end
+    --     else
+    --         inGarage = false
+    --         exports['qb-menu']:closeMenu()
+    --         exports['qb-core']:HideText()
+    --     end
+    -- end)
 end)

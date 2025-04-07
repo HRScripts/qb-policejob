@@ -48,3 +48,8 @@ files {
 	'html/main.css',
 	'html/vcr-ocd.ttf'
 }
+
+dependencies {
+	'HRLib',
+	'HRGarages'
+}

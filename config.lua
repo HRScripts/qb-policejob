@@ -30,11 +30,11 @@ Config.Locations = {
         vector3(440.085, -974.924, 30.689),
         vector3(-449.811, 6012.909, 31.815),
     },
-    vehicle = {
-        vector4(448.159, -1017.41, 28.562, 90.654),
-        vector4(471.13, -1024.05, 28.17, 274.5),
-        vector4(-455.39, 6002.02, 31.34, 87.93),
-    },
+    -- vehicle = {
+    --     vector4(448.159, -1017.41, 28.562, 90.654),
+    --     vector4(471.13, -1024.05, 28.17, 274.5),
+    --     vector4(-455.39, 6002.02, 31.34, 87.93),
+    -- },
     stash = {
         vector3(453.075, -980.124, 30.889),
     },
@@ -137,41 +137,41 @@ Config.AuthorizedVehicles = {
     },
 }
 
-Config.VehicleSettings = {
-    ['car1'] = {          --- Model name
-        ['extras'] = {
-            ['1'] = true, -- on/off
-            ['2'] = true,
-            ['3'] = true,
-            ['4'] = true,
-            ['5'] = true,
-            ['6'] = true,
-            ['7'] = true,
-            ['8'] = true,
-            ['9'] = true,
-            ['10'] = true,
-            ['11'] = true,
-            ['12'] = true,
-            ['13'] = true,
-        },
-        ['livery'] = 1,
-    },
-    ['car2'] = {
-        ['extras'] = {
-            ['1'] = true,
-            ['2'] = true,
-            ['3'] = true,
-            ['4'] = true,
-            ['5'] = true,
-            ['6'] = true,
-            ['7'] = true,
-            ['8'] = true,
-            ['9'] = true,
-            ['10'] = true,
-            ['11'] = true,
-            ['12'] = true,
-            ['13'] = true,
-        },
-        ['livery'] = 1,
-    }
-}
+-- Config.VehicleSettings = {
+--     ['car1'] = {          --- Model name
+--         ['extras'] = {
+--             ['1'] = true, -- on/off
+--             ['2'] = true,
+--             ['3'] = true,
+--             ['4'] = true,
+--             ['5'] = true,
+--             ['6'] = true,
+--             ['7'] = true,
+--             ['8'] = true,
+--             ['9'] = true,
+--             ['10'] = true,
+--             ['11'] = true,
+--             ['12'] = true,
+--             ['13'] = true,
+--         },
+--         ['livery'] = 1,
+--     },
+--     ['car2'] = {
+--         ['extras'] = {
+--             ['1'] = true,
+--             ['2'] = true,
+--             ['3'] = true,
+--             ['4'] = true,
+--             ['5'] = true,
+--             ['6'] = true,
+--             ['7'] = true,
+--             ['8'] = true,
+--             ['9'] = true,
+--             ['10'] = true,
+--             ['11'] = true,
+--             ['12'] = true,
+--             ['13'] = true,
+--         },
+--         ['livery'] = 1,
+--     }
+-- }
